@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "@vuepress/theme-blog": "^2.3.3",
+    "vuepress": "^1.8.0"
+  },
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build && babel-node --presets env upload.js"
+  },
+  "dependencies": {
+    "@vssue/api-github-v3": "^1.4.7",
+    "@vssue/vuepress-plugin-vssue": "^1.4.7",
+    "archiver": "^5.2.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "cos-nodejs-sdk-v5": "^2.9.1",
+    "globby": "^11.0.2"
+  }
+}
