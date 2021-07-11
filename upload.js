@@ -1,16 +1,14 @@
-import COS from 'cos-nodejs-sdk-v5'
-import Globby from 'globby'
-import archiver from 'archiver'
-import { SecretId, SecretKey, Bucket, Region, FileKey, FilePath, DirPath } from './config.js'
-import Fs from 'fs'
-import Path from 'path'
+const COS = require('cos-nodejs-sdk-v5');
+const Archiver = require('archiver');
+const { SecretId, SecretKey, Bucket, Region, FileKey, FilePath, DirPath } = require('./config.js');
+const Fs = require('fs');
 
 (async () => {
   // 初始化COS实例
   const cos = new COS({
     SecretId,
     SecretKey
-  })
+  });
 
   const upload = () => {
     // 上传文件对象
@@ -26,35 +24,27 @@ import Path from 'path'
       if (data.statusCode === 200) {
         await Fs.unlinkSync(FilePath)
         console.log(`✔文件上传成功~`)
+      } else {
+        console.log(err)
       }
     })
   }
 
-  // 获取本地文件目录树
-  const localFilePath = async (path = DirPath) => {
-    return new Promise(async (resolve) => {
-      const paths = await Globby(path)
-      resolve(paths)
-    })
-  }
-
-  const paths = await localFilePath()
-
-  const output = Fs.createWriteStream(FilePath) // 压缩后的文件路径(和上传的文件路径一致)
-  const archive = archiver('zip', {
+  const output = Fs.createWriteStream(FilePath); // 压缩后的文件路径(和上传的文件路径一致)
+  const archive = Archiver('zip', {
     zlib: { level: 9 }
-  })
+  });
 
   output.on('close', () => {
     console.log(archive.pointer() + ' total bytes')
-    console.log('archiver has been finalized and the output file descriptor has closed.')
+    console.log('Archiver has been finalized and the output file descriptor has closed.')
     console.log(`✔文件压缩完成~`)
     upload()
-  })
+  });
 
   output.on('end', () => {
     console.log('Data has been drained')
-  })
+  });
 
   archive.on('warning', (err) => {
     if (err.code === 'ENOENT') {
@@ -63,19 +53,15 @@ import Path from 'path'
       // throw error
       throw err
     }
-  })
+  });
   
   archive.on('error', (err) => {
     throw err
-  })
+  });
   
-  archive.pipe(output)
+  archive.pipe(output);
 
-  for (let i of paths) {
-    let p, rp
-    p = rp = Path.join(__dirname, i).replace(/\\/g, '\/')
-    archive.file(p, { name: rp.replace(Path.join(__dirname, DirPath).replace(/\\/g, '\/'), '') })
-  }
+  archive.directory(DirPath, false);
 
-  archive.finalize()
+  archive.finalize();
 })()
