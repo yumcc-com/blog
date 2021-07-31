@@ -16,6 +16,10 @@
     "text": "优化",
     "children": [
       {
+        "text": "vue2项目webpack转vite",
+        "link": "/study/optimization/2021-7-30"
+      },
+      {
         "text": "webpack本地项目启动时间优化",
         "link": "/study/optimization/2021-7-13"
       }
