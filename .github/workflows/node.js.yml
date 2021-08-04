@@ -32,7 +32,7 @@ jobs:
     - name: Upload COS
       uses: zkqiang/tencent-cos-action@v0.1.0
       with:
-        args: delete -r -f assets && delete -r -f life && delete -r -f study && upload -r ./docs/.vitepress/dist/ /
+        args: delete -r -f / && upload -r ./docs/.vitepress/dist/ /
         secret_id: ${{ secrets.T_SECRETID }}
         secret_key: ${{ secrets.T_SECRETKEY }}
         bucket: ${{ secrets.T_BUCKET }}
