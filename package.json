@@ -8,7 +8,8 @@
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs && node upload.js",
+    "docs:build:cos": "vitepress build docs && node upload.js",
+    "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
   },
   "dependencies": {
