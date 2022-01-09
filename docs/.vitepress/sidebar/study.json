@@ -5,6 +5,10 @@
       {
         "text": "一道关于变量提升的js基础题",
         "link": "/study/front/2021-7-14"
+      },
+      {
+        "text": "用js来理解平替eventBus的Mitt模块",
+        "link": "/study/front/2022-1-6"
       }
     ]
   },
